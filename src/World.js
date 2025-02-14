@@ -243,14 +243,6 @@ function addActionsFromUI(){
   document.getElementById('yellowON').onclick = function() { g_yellowAnimation = true; };
   document.getElementById('yellowOFF').onclick = function() { g_yellowAnimation = false; };
 
-  document.getElementById('magentaON').onclick = function() { g_extraAnimation = true; };
-  document.getElementById('magentaOFF').onclick = function() { g_extraAnimation = false; };
-
-  //Slider information
-  document.getElementById('angleSlide').addEventListener('mousemove', function() { g_cameraAngle = this.value, renderAllShapes()});
-  document.getElementById('yellowSlide').addEventListener('mousemove', function() { g_yellowAngle = this.value; renderAllShapes(); });
-  document.getElementById('magentaSlide').addEventListener('mousemove', function() { g_sliderAngle = this.value; renderAllShapes(); });
-
 }
 
 function initTextures(){
