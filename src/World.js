@@ -240,8 +240,8 @@ g_animalMatrix.translate(-.1,-.2,0);
 function addActionsFromUI(){
 
   //Button information
-  document.getElementById('yellowON').onclick = function() { g_yellowAnimation = true; };
-  document.getElementById('yellowOFF').onclick = function() { g_yellowAnimation = false; };
+  //document.getElementById('yellowON').onclick = function() { g_yellowAnimation = true; };
+  //document.getElementById('yellowOFF').onclick = function() { g_yellowAnimation = false; };
 
 }
 
