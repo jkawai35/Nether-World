@@ -240,8 +240,8 @@ g_animalMatrix.translate(-.1,-.2,0);
 function addActionsFromUI(){
 
   //Button information
-  //document.getElementById('yellowON').onclick = function() { g_yellowAnimation = true; };
-  //document.getElementById('yellowOFF').onclick = function() { g_yellowAnimation = false; };
+  document.getElementById('yellowON').onclick = function() { g_yellowAnimation = true; };
+  document.getElementById('yellowOFF').onclick = function() { g_yellowAnimation = false; };
 
 }
 
@@ -439,12 +439,10 @@ function main() {
 
   canvas.addEventListener("click", function(event) {
     let gridPos = g_camera.getGridPositionInFront();
-    console.log(gridPos);
-    if (event.buttons == 0){
-      addBlock(gridPos.z, gridPos.x);
-    }
-    if (event.buttons == 2){
+    if (event.shiftKey){
       removeBlock(gridPos.z, gridPos.x);
+    }else if (event.buttons == 0){
+      addBlock(gridPos.z, gridPos.x);
     }
 });
 
@@ -490,6 +488,9 @@ function addBlock(x,y) {
     if (g_map[x-2][y] == 0){
       g_map[x-2][y] = 1;
     }
+    if (g_map[x-2][y] == 9){
+      g_map[x-2][y] = 8;
+    }
   }
   drawMap();
 }
@@ -497,8 +498,8 @@ function addBlock(x,y) {
 function removeBlock(x,y) {
   if (x >= 0 && x <= 32 && y >= 0 && y <= 32){
     g_map[x-2][y] = g_map[x-2][y] - 1
-    if (g_map[x-2][y] == 0){
-      g_map[x-2][y] = -1;
+    if (g_map[x-2][y] < 0){
+      g_map[x-2][y] = 0;
     }
   }
   drawMap();
@@ -520,7 +521,7 @@ function tick() {
 function updateAnimationAngles(){
   if (g_yellowAnimation){
     g_yellowAngle = (15*Math.sin(g_seconds));
-    g_bodyAngle = (5*Math.sin(g_seconds));
+    g_bodyAngle = (-15*Math.sin(g_seconds));
   }
   if (g_extraAnimation){
     g_pawAngle = (10*Math.sin(g_seconds));
@@ -557,7 +558,7 @@ function keydown(ev){
   }else if (ev.keyCode == 82){
     removeBlock(ev);
   }else{
-    console.log("something else");
+    console.log()
   }
 }
 
@@ -711,6 +712,7 @@ function renderAllShapes(){
   arml2.matrix.translate(17, 1.5, 14.5);
   arml2.matrix.scale(1, .4, .5);
   arml2.matrix.rotate(-10,0,0,1);
+  arml2.matrix.rotate(g_yellowAngle,0,0,1);
   //body.matrix.rotate( g_bodyAngle, 0, 0, 1);
   arml2.renderfast2();
 
@@ -721,6 +723,8 @@ function renderAllShapes(){
   armr2.matrix.translate(16, 1.5, 13.5);
   armr2.matrix.scale(1, .4, .5);
   armr2.matrix.rotate(-10,0,0,1);
+  armr2.matrix.rotate(g_yellowAngle, 0,0,1);
+  saberarm = armr2.matrix;
   //body.matrix.rotate( g_bodyAngle, 0, 0, 1);
   armr2.renderfast2();
 
@@ -771,6 +775,7 @@ function renderAllShapes(){
   arml.matrix.translate(9.1, 1.5, 14.5);
   arml.matrix.scale(1, .4, .5);
   arml.matrix.rotate(-10,0,0,1);
+  arml.matrix.rotate(g_bodyAngle,0,0,1);
   //body.matrix.rotate( g_bodyAngle, 0, 0, 1);
   armMat = arml.matrix;
   arml.renderfast2();
@@ -782,6 +787,7 @@ function renderAllShapes(){
   armr.matrix.translate(8.5, 1.5, 13.5);
   armr.matrix.scale(1, .4, .5);
   armr.matrix.rotate(-10,0,0,1);
+  armr.matrix.rotate(g_bodyAngle,0,0,1);
   //body.matrix.rotate( g_bodyAngle, 0, 0, 1);
   armr.renderfast2();
 
@@ -796,10 +802,10 @@ function renderAllShapes(){
   saber.renderfast2();
 
   var saber2 = new Cube();
-  saber2.matrix = new Matrix4(armMat);
+  saber2.matrix = new Matrix4(saberarm);
   saber2.color = [.5, .5, 1.0, 1.0];
   saber2.textureNum = -2;
-  saber2.matrix.translate(7, 5, -1.6);
+  saber2.matrix.translate(.2, 3.8, .4);
   saber2.matrix.scale(.2, 3, .5);
   saber2.matrix.rotate(-87,0,0,1);
   //body.matrix.rotate( g_bodyAngle, 0, 0, 1);
